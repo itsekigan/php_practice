@@ -29,6 +29,10 @@ const outputArea = document.querySelector('#outputArea');
 const runDemoButton = document.querySelector('#runDemo');
 const loadSampleButton = document.querySelector('#loadSample');
 const chooseButtons = document.querySelectorAll('.choose-feature');
+const openToolsModalButton = document.querySelector('#openToolsModal');
+const closeToolsModalButton = document.querySelector('#closeToolsModal');
+const toolsModal = document.querySelector('#toolsModal');
+const toolButtons = document.querySelectorAll('.tool-link');
 
 function buildFeatureOptions() {
   window.CODEX_DEMO_FEATURES.forEach((feature) => {
@@ -72,9 +76,54 @@ function wireFeatureCards() {
   });
 }
 
+function openModal() {
+  if (!toolsModal) return;
+  toolsModal.classList.add('is-open');
+  toolsModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeModal() {
+  if (!toolsModal) return;
+  toolsModal.classList.remove('is-open');
+  toolsModal.setAttribute('aria-hidden', 'true');
+}
+
+function wireToolsModal() {
+  if (openToolsModalButton) {
+    openToolsModalButton.addEventListener('click', openModal);
+  }
+
+  if (closeToolsModalButton) {
+    closeToolsModalButton.addEventListener('click', closeModal);
+  }
+
+  if (toolsModal) {
+    toolsModal.addEventListener('click', (event) => {
+      if (event.target === toolsModal) {
+        closeModal();
+      }
+    });
+  }
+
+  toolButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const enabled = button.dataset.enabled === 'true';
+      const path = button.dataset.path;
+
+      if (!enabled || !path) {
+        alert('このツールは準備中です。');
+        return;
+      }
+
+      window.location.href = path;
+    });
+  });
+}
+
 buildFeatureOptions();
 loadSample();
 wireFeatureCards();
+wireToolsModal();
 
 runDemoButton.addEventListener('click', runDemo);
 loadSampleButton.addEventListener('click', loadSample);

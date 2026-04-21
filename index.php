@@ -31,6 +31,11 @@ $features = [
         'inputs' => ['データ項目', 'バリデーション条件', '必要件数'],
     ],
 ];
+$tools = [
+    ['name' => '電卓', 'path' => 'tools/calculator.php', 'enabled' => true],
+    ['name' => 'メモ帳', 'path' => '', 'enabled' => false],
+    ['name' => 'カレンダー', 'path' => '', 'enabled' => false],
+];
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -44,6 +49,7 @@ $features = [
 <header>
     <h1>Codex 学習デモシステム（PHP / JS / CSS）</h1>
     <p>生成AIツール初心者チーム向けに、Codexでできることを体験的に説明できるサンプルです。<strong>DB接続なし</strong>で動作します。</p>
+    <button id="openToolsModal" class="tools-entry" type="button">Codex作 ツール</button>
 </header>
 
 <main>
@@ -92,6 +98,31 @@ $features = [
         <pre id="outputArea">ここに出力が表示されます。</pre>
     </section>
 </main>
+
+<div id="toolsModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="toolsModalTitle">
+    <div class="modal-panel">
+        <div class="modal-header">
+            <h2 id="toolsModalTitle">Codex作 ツール</h2>
+            <button id="closeToolsModal" class="icon-button" type="button" aria-label="モーダルを閉じる">×</button>
+        </div>
+        <p>開きたいツールを選択してください。</p>
+        <div class="tool-list">
+            <?php foreach ($tools as $tool): ?>
+                <button
+                    class="tool-link"
+                    type="button"
+                    data-enabled="<?= $tool['enabled'] ? 'true' : 'false' ?>"
+                    data-path="<?= htmlspecialchars($tool['path'], ENT_QUOTES, 'UTF-8') ?>"
+                >
+                    <?= htmlspecialchars($tool['name'], ENT_QUOTES, 'UTF-8') ?>
+                    <?php if (!$tool['enabled']): ?>
+                        <span class="soon">（準備中）</span>
+                    <?php endif; ?>
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
 
 <footer>
     <small>このシステムは教育目的のローカルデモです。外部API・DBには接続しません。</small>
