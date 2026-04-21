@@ -64,7 +64,7 @@ $employees = [
         </tr>
       `).join('');
 
-      const keyword = document.getElementById('nameInput').value.trim();
+      const keyword = document.getElementById('nameInput').value;
       const countList = keyword
         ? employees.filter(emp => emp.name.includes(keyword))
         : employees;
