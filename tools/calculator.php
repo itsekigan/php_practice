@@ -9,84 +9,49 @@
 <body>
 <header>
     <h1>Codex作 電卓</h1>
-    <p>四則演算ができるシンプルな電卓です（DB接続なし）。</p>
+    <p>四則演算対応の電卓です（DB接続なし）。</p>
 </header>
 
 <main>
-    <section class="card">
-        <h2>計算フォーム</h2>
-        <div class="calculator-grid">
-            <div>
-                <label for="valueA">値A</label>
-                <input id="valueA" type="number" value="0">
-            </div>
-            <div>
-                <label for="valueB">値B</label>
-                <input id="valueB" type="number" value="0">
-            </div>
+    <section class="card calculator-shell">
+        <h2>電卓</h2>
+        <div class="calc-display-wrap">
+            <p id="calcFormula" class="calc-formula">0</p>
+            <p id="calcResult" class="calc-result">0</p>
         </div>
 
-        <label for="operator">演算子</label>
-        <select id="operator">
-            <option value="+">足し算 (+)</option>
-            <option value="-">引き算 (-)</option>
-            <option value="*">掛け算 (*)</option>
-            <option value="/">割り算 (/)</option>
-        </select>
+        <div class="calc-keypad" id="calcKeypad">
+            <button type="button" data-action="clear" class="secondary">AC</button>
+            <button type="button" data-action="back" class="secondary">⌫</button>
+            <button type="button" data-action="percent" class="secondary">%</button>
+            <button type="button" data-action="operator" data-value="/">÷</button>
+
+            <button type="button" data-action="digit" data-value="7">7</button>
+            <button type="button" data-action="digit" data-value="8">8</button>
+            <button type="button" data-action="digit" data-value="9">9</button>
+            <button type="button" data-action="operator" data-value="*">×</button>
+
+            <button type="button" data-action="digit" data-value="4">4</button>
+            <button type="button" data-action="digit" data-value="5">5</button>
+            <button type="button" data-action="digit" data-value="6">6</button>
+            <button type="button" data-action="operator" data-value="-">−</button>
+
+            <button type="button" data-action="digit" data-value="1">1</button>
+            <button type="button" data-action="digit" data-value="2">2</button>
+            <button type="button" data-action="digit" data-value="3">3</button>
+            <button type="button" data-action="operator" data-value="+">＋</button>
+
+            <button type="button" data-action="digit" data-value="0" class="span-2">0</button>
+            <button type="button" data-action="decimal">.</button>
+            <button type="button" data-action="equals" class="equals">=</button>
+        </div>
 
         <div class="actions">
-            <button type="button" id="calcButton">計算する</button>
-            <button type="button" id="resetButton" class="secondary">リセット</button>
+            <button type="button" onclick="window.location.href='../index.php'">トップに戻る</button>
         </div>
-
-        <h3>結果</h3>
-        <pre id="calcOutput">ここに計算結果が表示されます。</pre>
-    </section>
-
-    <section class="card">
-        <button type="button" onclick="window.location.href='../index.php'">トップに戻る</button>
     </section>
 </main>
 
-<script>
-const valueA = document.querySelector('#valueA');
-const valueB = document.querySelector('#valueB');
-const operator = document.querySelector('#operator');
-const calcButton = document.querySelector('#calcButton');
-const resetButton = document.querySelector('#resetButton');
-const calcOutput = document.querySelector('#calcOutput');
-
-function compute(a, b, op) {
-    if (op === '+') return a + b;
-    if (op === '-') return a - b;
-    if (op === '*') return a * b;
-    if (op === '/') {
-        if (b === 0) return '0で割ることはできません。';
-        return a / b;
-    }
-    return '不明な演算子です。';
-}
-
-calcButton.addEventListener('click', () => {
-    const a = Number(valueA.value);
-    const b = Number(valueB.value);
-    const op = operator.value;
-
-    if (Number.isNaN(a) || Number.isNaN(b)) {
-        calcOutput.textContent = '数値を入力してください。';
-        return;
-    }
-
-    const result = compute(a, b, op);
-    calcOutput.textContent = `${a} ${op} ${b} = ${result}`;
-});
-
-resetButton.addEventListener('click', () => {
-    valueA.value = '0';
-    valueB.value = '0';
-    operator.value = '+';
-    calcOutput.textContent = 'ここに計算結果が表示されます。';
-});
-</script>
+<script src="../assets/calculator.js"></script>
 </body>
 </html>
